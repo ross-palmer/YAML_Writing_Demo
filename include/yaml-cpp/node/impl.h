@@ -12,7 +12,10 @@
 #include "yaml-cpp/node/detail/memory.h"
 #include "yaml-cpp/node/detail/node.h"
 #include "yaml-cpp/exceptions.h"
+
 #include <string>
+
+
 
 namespace YAML {
 inline Node::Node() : m_isValid(true), m_pNode(NULL) {}
@@ -79,6 +82,8 @@ inline NodeType::value Node::Type() const {
   return m_pNode ? m_pNode->type() : NodeType::Null;
 }
 
+
+
 // access
 
 // template helpers
@@ -103,7 +108,7 @@ struct as_if<std::string, S> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
 
-  std::string operator()(const S& fallback) const {
+  const std::string operator()(const S& fallback) const {
     if (node.Type() != NodeType::Scalar)
       return fallback;
     return node.Scalar();
@@ -115,11 +120,13 @@ struct as_if<T, void> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
 
-  T operator()() const {
+  const T operator()() const {
     if (!node.m_pNode)
       throw TypedBadConversion<T>(node.Mark());
 
     T t;
+	//Node& rhs = t;
+	//rhs.reset(node);
     if (convert<T>::decode(node, t))
       return t;
     throw TypedBadConversion<T>(node.Mark());
@@ -131,7 +138,7 @@ struct as_if<std::string, void> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
 
-  std::string operator()() const {
+  const std::string operator()() const {
     if (node.Type() != NodeType::Scalar)
       throw TypedBadConversion<std::string>(node.Mark());
     return node.Scalar();
@@ -156,13 +163,13 @@ inline T Node::as(const S& fallback) const {
 inline const std::string& Node::Scalar() const {
   if (!m_isValid)
     throw InvalidNode();
-  return m_pNode ? m_pNode->scalar() : detail::node_data::empty_scalar();
+  return m_pNode ? m_pNode->scalar() : detail::node_data::empty_scalar;
 }
 
 inline const std::string& Node::Tag() const {
   if (!m_isValid)
     throw InvalidNode();
-  return m_pNode ? m_pNode->tag() : detail::node_data::empty_scalar();
+  return m_pNode ? m_pNode->tag() : detail::node_data::empty_scalar;
 }
 
 inline void Node::SetTag(const std::string& tag) {

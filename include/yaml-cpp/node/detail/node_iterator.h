@@ -19,7 +19,7 @@
 namespace YAML {
 namespace detail {
 struct iterator_type {
-  enum value { NoneType, Sequence, Map };
+  enum value { None, Sequence, Map };
 };
 
 template <typename V>
@@ -37,7 +37,7 @@ struct node_iterator_value : public std::pair<V*, V*> {
 };
 
 typedef std::vector<node*> node_seq;
-typedef std::vector<std::pair<node*, node*>> node_map;
+typedef std::map<node*, node*> node_map;
 
 template <typename V>
 struct node_iterator_type {
@@ -55,7 +55,7 @@ template <typename V>
 class node_iterator_base
     : public std::iterator<std::forward_iterator_tag, node_iterator_value<V>,
                            std::ptrdiff_t, node_iterator_value<V>*,
-                           node_iterator_value<V>> {
+                           node_iterator_value<V> > {
  private:
   struct enabler {};
 
@@ -73,7 +73,7 @@ class node_iterator_base
   typedef node_iterator_value<V> value_type;
 
   node_iterator_base()
-      : m_type(iterator_type::NoneType), m_seqIt(), m_mapIt(), m_mapEnd() {}
+      : m_type(iterator_type::None), m_seqIt(), m_mapIt(), m_mapEnd() {}
   explicit node_iterator_base(SeqIter seqIt)
       : m_type(iterator_type::Sequence),
         m_seqIt(seqIt),
@@ -105,7 +105,7 @@ class node_iterator_base
       return false;
 
     switch (m_type) {
-      case iterator_type::NoneType:
+      case iterator_type::None:
         return true;
       case iterator_type::Sequence:
         return m_seqIt == rhs.m_seqIt;
@@ -122,7 +122,7 @@ class node_iterator_base
 
   node_iterator_base<V>& operator++() {
     switch (m_type) {
-      case iterator_type::NoneType:
+      case iterator_type::None:
         break;
       case iterator_type::Sequence:
         ++m_seqIt;
@@ -143,7 +143,7 @@ class node_iterator_base
 
   value_type operator*() const {
     switch (m_type) {
-      case iterator_type::NoneType:
+      case iterator_type::None:
         return value_type();
       case iterator_type::Sequence:
         return value_type(**m_seqIt);

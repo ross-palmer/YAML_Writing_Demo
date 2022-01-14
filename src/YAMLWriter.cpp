@@ -14,6 +14,7 @@ void YAMLWriter::write()
 	out << YAML::Key << "Highscores";
 	out << YAML::Value << YAML::BeginSeq;
 	
+	
 	for (int i = 0; i < 3; i++)
 	{
 		// Write out the sequence...
@@ -29,12 +30,12 @@ void YAMLWriter::write()
 	}
 	out << YAML::EndSeq;
 	out << YAML::EndMap;
-	std::cout << "Here's the output YAML:\n" << out.c_str();
+	std::cout << "Here's the raw YAML data:\n" << out.c_str() << "\n";
 	
 	// Now write it to a file..
 	std::string file = ".\\Highscores.yaml";
 	std::ofstream fout(file); // This is the path to the YAML file
-
+	
 	fout << out.c_str() << std::endl;
 	fout.close();
 }
