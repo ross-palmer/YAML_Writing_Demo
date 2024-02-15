@@ -3,7 +3,7 @@
 void YAMLWriter::write()
 {
 	// Some high score data...
-	std::string names[] = { "Jim", "John", "Mary", "Zoe"};
+	std::string names[] = { "Jim", "John", "Mary", "Jane"};
 	int scores[] = { 1,2,3,4 };
 
 	// A YAML::Emitter acts as a YAML output stream 	
@@ -14,8 +14,8 @@ void YAMLWriter::write()
 	out << YAML::Key << "Highscores";
 	out << YAML::Value << YAML::BeginSeq;
 	
-	
-	for (int i = 0; i < 3; i++)
+	// Hard coded loop - 4 iterations, one per name/score combo
+	for (int i = 0; i < 4; i++)
 	{
 		// Write out the sequence...
 		// Each entry in the sequence is a mapping of 
