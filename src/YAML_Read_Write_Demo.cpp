@@ -33,6 +33,4 @@ int main()
 	{
 		std::cout << "Name: " << data.m_name << ", score: " << data.m_score << "\n";
 	}
-
-	std::cin.get();
 }
